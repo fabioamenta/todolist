@@ -3,9 +3,9 @@ import "../styles/reset.css";
 import "../styles/App.css";
 
 // Import components
-import List from "./List";
-import InputForm from "./InputForm";
-import Header from "./Header";
+import List from "./components/List/List";
+import InputForm from "./components/InputForm/InputForm";
+import Header from "./components/Header/Header";
 
 class App extends Component {
   // getInitialState
