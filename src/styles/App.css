@@ -1,0 +1,48 @@
+@font-face {
+	font-family: Lato;
+	src: url("https://fonts.googleapis.com/css?family=Lato:300,400,900,900i");
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background: rgb(219, 214, 214);
+	font-family: "Lato", sans-serif;
+}
+
+.wrapper {
+	max-width: 480px;
+	margin: auto;
+	background: #fff;
+	margin-top: 50px;
+	display: flex;
+	flex-direction: column;
+	padding: 50px;
+}
+
+.title {
+	align-self: flex-start;
+	font-size: 3rem;
+	font-weight: 300;
+	color: #333;
+	margin-bottom: 30px;
+}
+
+.todoInput {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 35px;
+}
+
+.logo-container {
+	max-width: 150px;
+	margin-bottom: 80px;
+}
+
+.logo-container img {
+	width: 100%;
+}
