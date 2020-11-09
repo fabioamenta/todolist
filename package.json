@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@styled-icons/fa-solid": "^10.22.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-scripts": "3.4.3",
+    "react-scripts": "^4.0.0",
     "styled-components": "^5.2.0"
   },
   "scripts": {
@@ -43,6 +44,7 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.26",
     "babel-loader": "^8.1.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "react-is": "^16.13.1"
   }
 }
