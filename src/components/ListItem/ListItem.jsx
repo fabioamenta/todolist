@@ -1,45 +1,35 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Checkbox from "../Checkbox/Checkbox";
+import CheckboxStyled from "../Checkbox/Checkbox";
 import Button from "../Button/Button";
-import ItemName from "./ItemName";
-
-import ListItemStyled from "./ListItemStyled";
+import { ListItemStyled, ItemName, Priority } from "./ListItemStyled";
 
 const ListItem = ({
-	isEditing,
-	item,
-	toggleIsEditingAt,
-	taskCompleted,
-	setName,
-	handleRemove,
+  item,
+  handleRemove,
+  handleComplete,
+  highPriority,
+  isCompleted,
 }) => {
-	return (
-		<ListItemStyled>
-			<Checkbox taskCompleted={taskCompleted}>dfgzdfg</Checkbox>
-			<ItemName
-				isEditing={isEditing}
-				item={item}
-				toggleIsEditingAt={toggleIsEditingAt}
-				handleNameEdits={(e) => setName(e.target.value)}>
-				{item}
-			</ItemName>
-			<Button
-				isEditing={isEditing}
-				toggleIsEditingAt={toggleIsEditingAt}
-				handleRemove={handleRemove}
-			/>
-		</ListItemStyled>
-	);
+  return (
+    <ListItemStyled isCompleted={!isCompleted}>
+      <CheckboxStyled
+        onHandleChange={handleComplete}
+        type="checkbox"
+        isCompleted={!isCompleted}
+      />
+      <Priority highPriority={highPriority} />
+      <ItemName>{item}</ItemName>
+      {!isCompleted && <Button handleClick={handleRemove} iconName="trash" />}
+    </ListItemStyled>
+  );
 };
 
 ListItem.propTypes = {
-	item: PropTypes.string.isRequired,
-	handleRemove: PropTypes.func.isRequired,
-	toggleIsEditingAt: PropTypes.func.isRequired,
-	isEditing: PropTypes.bool.isRequired,
-	setName: PropTypes.func.isRequired,
+  item: PropTypes.string.isRequired,
+  handleRemove: PropTypes.func,
+  handleComplete: PropTypes.func,
 };
 
 export default ListItem;

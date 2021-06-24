@@ -1,27 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ButtonStyled from "./ButtonStyled";
-import { SaveButton, CloseButton } from "./ActionButton";
+import { IconButton } from "./ButtonStyled";
+import Icon from "../Icon/Icon";
 
-const Button = ({ isEditing, toggleIsEditingAt, handleRemove }) => {
-	if (isEditing) {
-		return (
-			<ButtonStyled onClick={toggleIsEditingAt}>
-				<SaveButton />
-			</ButtonStyled>
-		);
-	}
-	return (
-		<ButtonStyled onClick={handleRemove}>
-			<CloseButton />
-		</ButtonStyled>
-	);
+const Button = ({ handleClick, iconName }) => {
+  return (
+    <IconButton onClick={handleClick}>
+      <Icon name={iconName} />
+    </IconButton>
+  );
 };
 
 Button.propTypes = {
-	handleRemove: PropTypes.func.isRequired,
-	toggleIsEditingAt: PropTypes.func.isRequired,
-	isEditing: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
 
 export default Button;

@@ -1,13 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CheckboxStyled from "./CheckboxStyled";
+import { CheckboxWrapper, Checkbox, CheckboxLabel } from "./CheckboxStyled";
 
-const Checkbox = ({ taskCompleted }) => {
-	return <CheckboxStyled onClick={taskCompleted}></CheckboxStyled>;
+const CheckboxStyled = ({
+  onHandleChange,
+  disabled,
+  swipe = false,
+  isCompleted,
+  label,
+  checked,
+}) => {
+  return (
+    <CheckboxWrapper swipe={swipe}>
+      <Checkbox
+        type="checkbox"
+        onChange={(e) => onHandleChange(e.target.checked)}
+        disabled={swipe ? disabled : !isCompleted}
+        checked={swipe ? checked : !isCompleted}
+      />
+      <CheckboxLabel>{label}</CheckboxLabel>
+    </CheckboxWrapper>
+  );
 };
 
-Checkbox.propTypes = {
-	taskCompleted: PropTypes.func.isRequired,
+CheckboxStyled.propTypes = {
+  onHandleChange: PropTypes.func.isRequired,
+  swipe: PropTypes.bool,
+  disabled: PropTypes.bool,
+  label: PropTypes.string,
 };
 
-export default Checkbox;
+export default CheckboxStyled;

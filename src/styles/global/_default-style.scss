@@ -1,0 +1,52 @@
+/*--------------------------------------------------------------
+# General
+--------------------------------------------------------------*/
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: $font-family-default;
+  font-size: font-size(base);
+  line-height: line-height(base);
+  color: theme-color("text-primary");
+  background-color: theme-color("background-secondary");
+  font-weight: $font-weight-regular;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  font-weight: $font-weight-medium;
+  transition: $default-transition;
+  & {
+    color: currentColor;
+    text-decoration: none;
+    &:hover,
+    &:focus,
+    &:active {
+      color: inherit;
+      outline: none;
+    }
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+h1 {
+  font-size: font-size(l);
+  font-weight: $font-weight-bold;
+}
+
+h2 {
+  font-size: font-size(base);
+  font-weight: $font-weight-medium;
+}

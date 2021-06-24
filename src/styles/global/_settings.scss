@@ -1,0 +1,85 @@
+// Grid layout
+$custom-grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1480px,
+) !default;
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl: 1440px,
+) !default;
+
+$grid-columns: 12 !default;
+
+// Color settings
+$default-primary-color: #141b2c;
+$default-secondary-color: #202a43;
+$default-tertiary-color: #cbddf0;
+
+$theme-colors: (
+  primary: $default-primary-color,
+  secondary: $default-secondary-color,
+  placeholder: #878787,
+  background-primary: $default-primary-color,
+  background-secondary: $default-secondary-color,
+  text-primary: $default-tertiary-color,
+  text-secondary: #a9c8e8,
+  border-color: #08012a,
+);
+
+// Typography
+$font-family-default: "Poppins", sans-serif;
+$font-family-title: $font-family-default;
+$font-sizes: (
+  xs: 0.8rem,
+  s: 1.2rem,
+  base: 1.4rem,
+  m: 1.6rem,
+  l: 2.4rem,
+);
+
+$lines-height: (
+  xs: 1.35em,
+  s: 1.5em,
+  base: 1.71em,
+  m: 2em,
+  l: 2.2em,
+  xl: 2.8em,
+);
+
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// General gutters
+$gutters: (
+  xxs: 0.6rem,
+  xs: 1rem,
+  s: 1.5rem,
+  base: 2rem,
+  m: 2.3rem,
+  l: 3rem,
+  xl: 3.5rem,
+);
+
+$gutter-xxs: 0.6rem;
+$gutter-xs: 1rem;
+$gutter-s: 1.5rem;
+$gutter-base: 2rem;
+$gutter-m: 2.3rem;
+$gutter-l: 3rem;
+$gutter-xl: 3.5rem;
+
+$border-radius-default: 3px;
+
+// Transitions
+$default-transition: all 0.35s cubic-bezier(0, 0, 0.44, 1.18);

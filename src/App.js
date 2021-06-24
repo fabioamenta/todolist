@@ -1,106 +1,174 @@
-import React, { Component } from "react";
-import "./styles/reset.css";
-import "./styles/App.css";
+import React, { Component, Fragment } from "react";
+import "./styles/global/App.scss";
 
 // Import components
+import Root from "./components/Root/Root";
+import MenuBar from "./components/MenuBar/MenuBar";
+import Main from "./components/Main/Main";
 import List from "./components/List/List";
 import InputForm from "./components/InputForm/InputForm";
-import Header from "./components/Header/Header";
+import IconLink from "./components/IconLink/IconLink";
+import Badge from "./components/Badge/Badge";
+import { settings } from "./styles/global/settings";
+import { AddNewTask } from "./components/Button/ButtonStyled";
+import Modal from "./components/Modal/Modal";
 
 class App extends Component {
-	// getInitialState
-	state = {
-		list: [],
-		pendingItem: "",
-	};
+  state = {
+    list: [],
+    completedTask: [],
+    pendingItem: "",
+    highPriority: false,
+    isMobile:
+      window.innerWidth <
+      parseInt(settings.breakpoints.desktop.replace("px", "")),
+    modalShown: false,
+  };
 
-	lastItemId = 0;
+  sortByPriority = (arr) => {
+    const hpArr = arr.filter((item) => item.highPriority);
+    const restArr = arr.filter((item) => !item.highPriority);
+    return hpArr.concat(restArr);
+  };
 
-	newItemId = () => {
-		const id = this.lastItemId;
-		this.lastItemId += 1;
-		return id;
-	};
+  taskCompleted = (id) => {
+    const { completedTask, list } = this.state;
+    const element = list.find((item) => id === item.id);
+    element.isCompleted = true;
+    completedTask.unshift(element);
+    this.setState({
+      completedTask: this.sortByPriority(completedTask),
+    });
+    this.removeTask(id);
+  };
 
-	// Flips isEditing bool
-	toggleIsEditingAt = (id) => {
-		const { list } = this.state;
-		const updateList = list.map((item) => {
-			if (id === item.id) {
-				return {
-					...item,
-					isEditing: !item["isEditing"],
-				};
-			}
-			return item;
-		});
-		this.setState({
-			list: updateList,
-		});
-	};
+  removeTask = (id) => {
+    this.setState({ list: this.state.list.filter((item) => id !== item.id) });
+  };
 
-	taskCompleted = (id) => {
-		console.log(id);
-		/* this.removeItemAt(id); */
-	};
+  handleChange = (e) => this.setState({ pendingItem: e.target.value });
 
-	removeItemAt = (id) => {
-		this.setState({ list: this.state.list.filter((item) => id !== item.id) });
-	};
+  handlePriority = (e) => {
+    this.setState({ highPriority: e });
+  };
 
-	handleItemInput = (e) => this.setState({ pendingItem: e.target.value });
+  handleModal = () => {
+    this.setState({ modalShown: !this.state.modalShown });
+  };
 
-	// handle editing items
-	setNameAt = (name, id) => {
-		this.setState({
-			list: this.state.list.map((item) => {
-				if (id === item.id) {
-					return {
-						...item,
-						name,
-					};
-				}
-				return item;
-			}),
-		});
-	};
+  lastItemId = 0;
 
-	newItemSubmitHandler = (e) => {
-		e.preventDefault();
-		const id = this.newItemId();
-		this.setState({
-			list: [
-				{
-					name: this.state.pendingItem,
-					isEditing: false,
-					id,
-				},
-				...this.state.list,
-			],
-			pendingItem: "",
-		});
-	};
+  newItemSubmitHandler = (e) => {
+    e.preventDefault();
 
-	render() {
-		return (
-			<div className='wrapper'>
-				<Header />
-				<InputForm
-					newItemSubmitHandler={this.newItemSubmitHandler}
-					handleItemInput={this.handleItemInput}
-					pendingItem={this.state.pendingItem}
-				/>
+    let sortedList = [
+      {
+        name: this.state.pendingItem,
+        isEditing: false,
+        id: this.lastItemId++,
+        highPriority: this.state.highPriority,
+        isCompleted: false,
+      },
+      ...this.state.list,
+    ];
 
-				<List
-					list={this.state.list}
-					removeItemAt={this.removeItemAt}
-					toggleIsEditingAt={this.toggleIsEditingAt}
-					taskCompleted={this.taskCompleted}
-					setNameAt={this.setNameAt}
-				/>
-			</div>
-		);
-	}
+    this.setState({
+      list: this.sortByPriority(sortedList),
+      pendingItem: "",
+      highPriority: false,
+    });
+  };
+
+  render() {
+    return (
+      <Root>
+        <MenuBar>
+          <li>
+            <IconLink
+              url="/dashboard"
+              active
+              icon="dashboard"
+              label="Dashboard"
+            >
+              <Badge>
+                {this.state.completedTask.length}/
+                {this.state.list.length + this.state.completedTask.length}
+              </Badge>
+            </IconLink>
+          </li>
+          <li>
+            <IconLink url="/calendar" icon="calendar" label="Calendar" />
+          </li>
+          <li>
+            <IconLink url="/teams" icon="teams" label="Teams" />
+          </li>
+          <li>
+            <IconLink url="/charts" icon="charts" label="Charts" />
+          </li>
+          <li>
+            <IconLink url="/settings" icon="settings" label="Settings" />
+          </li>
+        </MenuBar>
+        <Main>
+          <div className="container">
+            {this.state.isMobile && (
+              <Fragment>
+                <AddNewTask type="button" onClick={this.handleModal}>
+                  New Task <span>+</span>
+                </AddNewTask>
+                <Modal isShown={this.state.modalShown} title="New task">
+                  <InputForm
+                    newItemSubmitHandler={this.newItemSubmitHandler}
+                    handleChange={this.handleChange}
+                    handlePriority={this.handlePriority}
+                    handleClose={this.handleModal}
+                    title="New task"
+                    priorityState={this.state.highPriority}
+                    pendingItem={this.state.pendingItem}
+                  />
+                </Modal>
+              </Fragment>
+            )}
+            {!this.state.isMobile && (
+              <Fragment>
+                <h2>New task</h2>
+                <InputForm
+                  newItemSubmitHandler={this.newItemSubmitHandler}
+                  handleChange={this.handleChange}
+                  handlePriority={this.handlePriority}
+                  priorityState={this.state.highPriority}
+                  pendingItem={this.state.pendingItem}
+                />
+              </Fragment>
+            )}
+
+            {this.state.list.length > 0 && (
+              <div>
+                <h2>
+                  <span>In progress</span>
+                  <Badge type="circle">{this.state.list.length}</Badge>
+                </h2>
+                <List
+                  list={this.state.list}
+                  removeTask={this.removeTask}
+                  taskCompleted={this.taskCompleted}
+                />
+              </div>
+            )}
+            {this.state.completedTask.length > 0 && (
+              <div>
+                <h2>
+                  <span>Done</span>
+                  <Badge type="circle">{this.state.completedTask.length}</Badge>
+                </h2>
+                <List list={this.state.completedTask} />
+              </div>
+            )}
+          </div>
+        </Main>
+      </Root>
+    );
+  }
 }
 
 export default App;
