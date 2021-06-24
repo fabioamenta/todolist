@@ -1,0 +1,44 @@
+/// Mixin to manage responsive breakpoints
+/// @author Hugo Giraudel
+/// @param {String} $breakpoint - Breakpoint name
+/// @require $custom-grid-breakpoints
+@mixin screen($breakpoint) {
+  // If the key exists in the map
+  @if map-has-key($custom-grid-breakpoints, $breakpoint) {
+    // Prints a media query based on the value
+    @media (min-width: map-get($custom-grid-breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+
+  // If the key doesn't exist in the map
+  @else {
+    @warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+        + "Available breakpoints are: #{map-keys($custom-grid-breakpoints)}.";
+  }
+}
+
+@mixin make-columns($columns: $grid-columns, $gutter: gutter(base)) {
+  %grid-column {
+    position: relative;
+    width: 100%;
+    padding-right: $gutter;
+    padding-left: $gutter;
+  }
+
+  @if $columns > 0 {
+    @for $i from 1 through $columns {
+      .col-#{$i} {
+        @extend %grid-column;
+        @include screen(lg) {
+          @include make-col($i, $columns);
+        }
+      }
+    }
+  }
+}
+
+@mixin make-col($size, $columns: $grid-columns) {
+  flex: 0 0 percentage($size / $columns);
+  max-width: percentage($size / $columns);
+}
